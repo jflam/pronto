@@ -1,9 +1,18 @@
+# This sample uses data from the Pronto data challenge that can be found here:
+# https://s3.amazonaws.com/pronto-data/open_data_year_one.zip
+
+# To run this sample, download and unzip the contents of the file to a data
+# subdirectory in this project. The .gitignore in this project is set to
+# ignore everything in this directory already.
+
 # Load the pronto dataset into a dataframe
 
-station_data <- read.csv("data/2015_station_data.csv", stringsAsFactors = FALSE)
-trip_data <- read.csv("data/2015_trip_data.csv", stringsAsFactors = FALSE)
-status_data <- read.csv("data/2015_status_data.csv", stringsAsFactors = FALSE)
-weather_data <- read.csv("data/2015_weather_data.csv", stringsAsFactors = FALSE)
+library(data.table)
+
+station_data <- fread("data/2015_station_data.csv", stringsAsFactors = FALSE)
+trip_data <- fread("data/2015_trip_data.csv", stringsAsFactors = FALSE)
+status_data <- fread("data/2015_status_data.csv", stringsAsFactors = FALSE)
+weather_data <- fread("data/2015_weather_data.csv", stringsAsFactors = FALSE)
 
 # How big is this data?
 
