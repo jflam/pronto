@@ -50,4 +50,27 @@ m <- leaflet(data = stations) %>%
          addTiles() %>%
          addCircles( ~ long, ~ lat, popup = ~note, radius = ~departures / 50, stroke = FALSE, fillOpacity = 0.5) %>%
          addCircles( ~ long, ~ lat, popup = ~note, radius = ~arrivals / 50, color = "F30", fillOpacity = 0.5)
-m
+         m
+
+# Trip data has information about birth year of rider and the type of pass that they have
+
+library(ggvis)
+
+# Compute the ages of riders 
+
+current_year = as.numeric(format(Sys.Date(), "%Y"))
+trip_data$age = current_year - trip_data$birthyear
+
+trip_data %>%
+    ggvis( ~ age) %>%
+    layer_histograms(width = input_slider(1, 10, step = 1, label = "Bin Width"),
+                   center = 35,
+                   fill := "#E74C3C") %>%
+    add_axis("x", title = "Age") %>%
+    add_axis("y", title = "Count")
+
+# Plot trips per day for short term vs. long term pass holders
+
+library(dplyr)
+trip_data$departure_date <- as.Date(trip_data$starttime, "%m/%d/%Y %H:%M")
+zz1 <- trip_data %>% group_by(trip_id, departure_date)
